@@ -29,16 +29,24 @@ namespace ChargeAmpReminder
 
             if (loginResult.Success)
             {
+                log.LogInformation("Login to Charge Amps Successful");
                 var protocolResult = await SetStatusesFromProtocol();
 
                 if (protocolResult.Success)
                 {
+                    log.LogInformation("Determining Protocol Successful");
                     var response = await _chargeAmpClient.GetChargePointStatus();
                     if (response.Success)
                     {
+                        log.LogInformation("Get Status of Charge Point Successful");
                         if (response.ConnectorStatuses.None(IsConnectedStatus))
                         {
+                            log.LogInformation("No Connected Charger Detected, Sending Email");
                             await _gmailClient.SendNotConnectedEmail();
+                        }
+                        else
+                        {
+                            log.LogInformation("Charger Connected");
                         }
                     }
                     else

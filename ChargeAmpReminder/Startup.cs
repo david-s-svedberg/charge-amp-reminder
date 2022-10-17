@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Text.Json;
 using ChargeAmpReminder;
@@ -12,12 +13,12 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddHttpClient();
+        builder.Services.AddLogging();
         builder.Services.Configure<JsonSerializerOptions>(o =>
         {
             o.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         });
-        builder.Services.AddSingleton(_ =>
+        builder.Services.AddTransient(_ =>
         {
             var smtpClient = new SmtpClient
             {
@@ -33,5 +34,6 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddTransient<IGmailClient, GmailClient>();
         builder.Services.AddTransient<IChargeAmpClient, ChargeAmpClient>();
+        builder.Services.AddTransient<ISettings, Settings>();
     }
 }

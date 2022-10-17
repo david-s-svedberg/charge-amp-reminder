@@ -11,7 +11,7 @@ public class ConnectorStatus
     public string SessionType { get; set; }
     public string Status { get; set; }
     public IEnumerable<Measurement> Measurements { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
-    public int SessionId { get; set; }
+    public DateTime? StartTime { get; set; }
+    public DateTime? EndTime { get; set; }
+    public int? SessionId { get; set; }
 }
