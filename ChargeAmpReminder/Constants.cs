@@ -5,13 +5,13 @@ namespace ChargeAmpReminder;
 
 public static class Constants
 {
-    public const string ENV_CHARGE_AMP_USER_NAME = "charge_amp_user_name";
-    public const string ENV_CHARGE_AMP_PASSWORD = "charge_amp_password";
-    public const string ENV_CHARGE_AMP_API_KEY = "charge_amp_apiKey";
-    public const string ENV_USER_NAME = "gmail_user_name";
-    public const string ENV_TO_NOTIFY = "email_to_notify";
-    public const string ENV_GMAIL_USER_PASSWORD = "gmail_user_password";
-    public const string ENV_CHARGE_AMP_CHARGE_POINT_ID = "charge_amp_chargePointId";
+    public const string CHARGE_AMP_USER_NAME_KEY = "charge_amp_user_name";
+    public const string CHARGE_AMP_PASSWORD_KEY = "charge_amp_password";
+    public const string CHARGE_AMP_API_KEY_KEY = "charge_amp_apiKey";
+    public const string GMAIL_USER_NAME_KEY = "gmail_user_name";
+    public const string EMAIL_TO_NOTIFY_KEY = "email_to_notify";
+    public const string GMAIL_USER_PASSWORD_KEY = "gmail_user_password";
+    public const string CHARGE_AMP_CHARGE_POINT_ID_KEY = "charge_amp_chargePointId";
 
     public const string BASE_URL = @"https://eapi.charge.space/api/v4";
     public const string API_KEY_HEADER_KEY = "apiKey";

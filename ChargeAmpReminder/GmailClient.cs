@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace ChargeAmpReminder;
 
@@ -12,14 +13,14 @@ public class GmailClient : IGmailClient
 
     private readonly SmtpClient _smtpClient;
 
-    public GmailClient(SmtpClient smtpClient)
+    public GmailClient(SmtpClient smtpClient, ISettings settings)
     {
         _smtpClient = smtpClient;
 
-        _gmailUserName = Environment.GetEnvironmentVariable(Constants.ENV_USER_NAME);
-        _emailToNotify = Environment.GetEnvironmentVariable(Constants.ENV_TO_NOTIFY);
+        _gmailUserName = settings.GmailUserName;
+        _emailToNotify = settings.EmailToNotify;
 
-        var gmailPassword = Environment.GetEnvironmentVariable(Constants.ENV_GMAIL_USER_PASSWORD);
+        var gmailPassword = settings.GmailPassword;
 
         _smtpClient.Credentials = new NetworkCredential(_gmailUserName, gmailPassword);
     }
@@ -33,10 +34,11 @@ public class GmailClient : IGmailClient
 
     private MailMessage CreateEmail()
     {
-        var email = new MailMessage(_gmailUserName, _emailToNotify);
-        email.Subject = "Charger not connected";
-        email.Body = "Charger not connected";
-        return email;
+        return new MailMessage(_gmailUserName, _emailToNotify)
+        {
+            Subject = "Charger Not Connected",
+            Body = "Charger Not Connected",
+        }; ;
     }
 
     public void Dispose()

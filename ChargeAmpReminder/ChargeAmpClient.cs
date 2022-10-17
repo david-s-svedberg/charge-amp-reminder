@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using ChargeAmpReminder.Model;
 using ChargeAmpReminder.Model.Api;
+using Microsoft.Extensions.Configuration;
 
 namespace ChargeAmpReminder;
 
@@ -17,18 +18,21 @@ public class ChargeAmpClient : IChargeAmpClient
     private readonly string _chargeAmpsUserName;
     private readonly string _chargeAmpsPassword;
     private readonly string _apiKey;
+
     private readonly HttpClient _httpClient;
 
-    public ChargeAmpClient(IHttpClientFactory httpClientFactory)
+    public ChargeAmpClient(IHttpClientFactory httpClientFactory, ISettings settings)
     {
         _httpClient = httpClientFactory.CreateClient();
-        _chargeAmpsUserName = Environment.GetEnvironmentVariable(Constants.ENV_CHARGE_AMP_USER_NAME);
-        _chargeAmpsPassword = Environment.GetEnvironmentVariable(Constants.ENV_CHARGE_AMP_PASSWORD);
-        _apiKey = Environment.GetEnvironmentVariable(Constants.ENV_CHARGE_AMP_API_KEY);
+        _chargeAmpsUserName = settings.ChargeAmpUserName;
+        _chargeAmpsPassword = settings.ChargeAmpPassword;
+        _apiKey = settings.ChargeAmpApiKey;
 
-        var chargePointId = Environment.GetEnvironmentVariable(Constants.ENV_CHARGE_AMP_CHARGE_POINT_ID);
+        var chargePointId = settings.ChargeAmpChargePointId;
         _chargePointUrl = $"{Constants.CHARGE_POINTS_URL}/{chargePointId}";
         _chargePointStatusUrl = $"{_chargePointUrl}/status";
+
+        _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
     }
 
     public async Task<ProtocolResult> GetProtocol()
@@ -105,8 +109,9 @@ public class ChargeAmpClient : IChargeAmpClient
         var loginResult = new LoginResult();
         var loginBody = new { email = _chargeAmpsUserName, password = _chargeAmpsPassword };
         var loginRequest = JsonContent.Create(loginBody);
+        loginRequest.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
         loginRequest.Headers.Add(Constants.API_KEY_HEADER_KEY, _apiKey);
-        var response = await _httpClient.PostAsJsonAsync(Constants.LOGIN_URL, loginRequest);
+        var response = await _httpClient.PostAsync(Constants.LOGIN_URL, loginRequest);
 
         if (response.IsSuccessStatusCode)
         {
