@@ -1,13 +1,13 @@
-using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Text.Json;
-using ChargeAmpReminder;
+using ChargeAmpReminder.Domain;
+using ChargeAmpReminder.Setup;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Setup;
 
 public class Startup : FunctionsStartup
 {
@@ -32,6 +32,7 @@ public class Startup : FunctionsStartup
             return smtpClient;
         });
 
+        builder.Services.AddTransient<IChargerConnectedChecker, ChargerConnectedChecker>();
         builder.Services.AddTransient<IGmailClient, GmailClient>();
         builder.Services.AddTransient<IChargeAmpClient, ChargeAmpClient>();
         builder.Services.AddTransient<ISettings, Settings>();

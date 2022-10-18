@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -7,9 +6,9 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using ChargeAmpReminder.Model;
 using ChargeAmpReminder.Model.Api;
-using Microsoft.Extensions.Configuration;
+using ChargeAmpReminder.Setup;
 
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Domain;
 
 public class ChargeAmpClient : IChargeAmpClient
 {
@@ -147,7 +146,12 @@ public class ChargeAmpClient : IChargeAmpClient
         if (chargePointStatusResponse != null)
         {
             result.ChargePointStatus = chargePointStatusResponse.Status;
-            result.ConnectorStatuses = chargePointStatusResponse.ConnectorStatuses.Select(c => c.Status).ToArray();
+            result.ConnectorResults = chargePointStatusResponse
+                .ConnectorStatuses.Select(c => new ConnectorResult
+                {
+                    Id = c.ConnectorId,
+                    Status = c.Status,
+                }).ToArray();
             result.Success = true;
         }
         else

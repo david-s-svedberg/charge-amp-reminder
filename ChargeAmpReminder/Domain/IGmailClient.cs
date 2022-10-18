@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Domain;
 
 public interface IGmailClient : IDisposable
 {

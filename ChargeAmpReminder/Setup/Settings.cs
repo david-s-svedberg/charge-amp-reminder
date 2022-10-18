@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Setup;
 
 public class Settings : ISettings
 {

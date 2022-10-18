@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ChargeAmpReminder.Model;
 
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Domain;
 
 public interface IChargeAmpClient : IDisposable
 {

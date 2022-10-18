@@ -1,4 +1,4 @@
-namespace ChargeAmpReminder;
+namespace ChargeAmpReminder.Setup;
 
 public interface ISettings
 {
