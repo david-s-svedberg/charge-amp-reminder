@@ -12,6 +12,7 @@ public static class Constants
     public const string EMAIL_TO_NOTIFY_KEY = "email_to_notify";
     public const string GMAIL_USER_PASSWORD_KEY = "gmail_user_password";
     public const string CHARGE_AMP_CHARGE_POINT_ID_KEY = "charge_amp_chargePointId";
+    public const string SCHEDULE_EXPRESSION_KEY = "%schedule_expression%";
 
     public const string BASE_URL = @"https://eapi.charge.space/api/v4";
     public const string API_KEY_HEADER_KEY = "apiKey";

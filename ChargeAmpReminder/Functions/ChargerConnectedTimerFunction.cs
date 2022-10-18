@@ -7,8 +7,6 @@ namespace ChargeAmpReminder.Functions;
 
 public class ChargerConnectedTimerFunction
 {
-    private const string CRON_TRIGGER = "0 21 * * *";
-
     private readonly IChargerConnectedChecker _chargerConnectedChecker;
     private readonly IGmailClient _gMailClient;
 
@@ -19,7 +17,7 @@ public class ChargerConnectedTimerFunction
     }
 
     [FunctionName(nameof(ChargerConnectedTimerFunction))]
-    public async Task Run([TimerTrigger(CRON_TRIGGER)] TimerInfo myTimer, ILogger log)
+    public async Task Run([TimerTrigger(Constants.SCHEDULE_EXPRESSION_KEY)] TimerInfo myTimer, ILogger log)
     {
         var result = await _chargerConnectedChecker.IsConnected(log);
         if (result.Success && !result.Response.IsConnected)
